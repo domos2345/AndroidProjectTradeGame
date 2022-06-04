@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "346166363555",
+    "firebase_url": "https://tradegametoolvma2022-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "tradegametoolvma2022",
+    "storage_bucket": "tradegametoolvma2022.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:346166363555:android:d9aa2eae43c1f408b7c616",
+        "android_client_info": {
+          "package_name": "com.example.vma_project_2022_trade_game"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "346166363555-9culrpo887ur0cldl33320fp7cngmvq5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBNEACsYbKgyoAvNvXorRGbQ9UlWQOEY_8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "346166363555-9culrpo887ur0cldl33320fp7cngmvq5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

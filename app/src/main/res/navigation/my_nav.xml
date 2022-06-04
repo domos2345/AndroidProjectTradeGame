@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/mainMenuFragment">
+
+    <fragment
+        android:id="@+id/mainMenuFragment"
+        android:name="com.example.vma_project_2022_trade_game.MainMenuFragment"
+        android:label="fragment_main_menu"
+        tools:layout="@layout/fragment_main_menu" >
+        <action
+            android:id="@+id/action_mainMenuFragment_to_resourceSetupFragment"
+            app:destination="@id/resourceSetupFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/resourceSetupFragment"
+        android:name="com.example.vma_project_2022_trade_game.ResourceSetupFragment"
+        android:label="fragment_resource_setup"
+        tools:layout="@layout/fragment_resource_setup" >
+        <action
+            android:id="@+id/action_resourceSetupFragment_to_phaseEditFragment"
+            app:destination="@id/phaseEditFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/phaseEditFragment"
+        android:name="com.example.vma_project_2022_trade_game.PhaseEditFragment"
+        android:label="fragment_phase_edit"
+        tools:layout="@layout/fragment_phase_edit" />
+</navigation>
