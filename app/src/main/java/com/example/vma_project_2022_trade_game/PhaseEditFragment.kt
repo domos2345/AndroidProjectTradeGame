@@ -1,23 +1,23 @@
 package com.example.vma_project_2022_trade_game
 
-import android.app.Application
 import android.content.Context
+import android.content.SharedPreferences
+import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
 import androidx.core.view.get
-import com.example.vma_project_2022_trade_game.databinding.FragmentMainMenuBinding
+import androidx.fragment.app.Fragment
 import com.example.vma_project_2022_trade_game.databinding.FragmentPhaseEditBinding
-import com.example.vma_project_2022_trade_game.databinding.FragmentResourceSetupBinding
 
 
 class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit) {
 
     var _binding: FragmentPhaseEditBinding? = null
     val binding get() = _binding!!
+
 
     var gridItems: ArrayList<String> = ArrayList()
 
@@ -42,7 +42,11 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var listOfGridItems = MutableList((MyManager.resCount + 1) * (MyManager.resCount + 1)) { "X" }
+        var sharedpreferences: SharedPreferences =
+            this.requireActivity().getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+
+        var listOfGridItems =
+            MutableList((MyManager.resCount + 1) * (MyManager.resCount + 1)) { "X" }
         val columnsCount = MyManager.resCount + 1
         for (i in 1 until (columnsCount)) {
             listOfGridItems[i] =
@@ -50,7 +54,7 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit) {
         }
 
         for (i in 1 until (columnsCount)) {
-            listOfGridItems[i*columnsCount] =
+            listOfGridItems[i * columnsCount] =
                 MyManager.gameActual.resNames[(i - 1).toString()].toString()
         }
 
@@ -67,6 +71,9 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit) {
         binding.nameOfPhase.text = "Fáza 1 "
         listOfGridItems[6] = "work?"
         adapter.notifyDataSetChanged()
+        /*for (i in 0..columnsCount) {
+            binding.gridview[1 + (i * columnsCount + 1)].setBackgroundResource(R.color.black)
+        }*/
 
 
         binding.gridview.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->

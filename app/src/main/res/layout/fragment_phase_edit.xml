@@ -20,7 +20,7 @@
     <GridView
         android:id="@+id/gridview"
         android:layout_width="0dp"
-        android:layout_height="300dp"
+        android:layout_height="wrap_content"
         android:layout_margin="10dp"
 
         android:columnWidth="80dp"
@@ -32,6 +32,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/nameOfPhase" />
+
+    <Button
+        android:id="@+id/checkCyclesButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="@string/checkCyclesButtonText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridview" />
+
+    <Button
+        android:id="@+id/newPhaseButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="ďalšia fáza"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/saveGameButton"
+        app:layout_constraintTop_toBottomOf="@+id/checkCyclesButton" />
+
+    <Button
+        android:id="@+id/saveGameButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="uložiť hru"
+        app:layout_constraintEnd_toStartOf="@+id/newPhaseButton"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/checkCyclesButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

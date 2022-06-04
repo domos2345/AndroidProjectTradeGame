@@ -1,11 +1,14 @@
 package com.example.vma_project_2022_trade_game
 
 import android.content.Context
+import android.graphics.Color
+import android.provider.CalendarContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
+import androidx.appcompat.R.color
 
 class GridAdapter(val context: Context,var texts : List<String>) : BaseAdapter() {
 
@@ -28,6 +31,8 @@ class GridAdapter(val context: Context,var texts : List<String>) : BaseAdapter()
 
         val view = inflater.inflate(R.layout.grid_item,null)
         view.findViewById<TextView>(R.id.gridItemText).text = text
+
+        //view.findViewById<TextView>(R.id.gridItemText).setBackgroundResource(R.color.black)
         return view
 
 

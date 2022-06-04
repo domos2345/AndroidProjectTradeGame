@@ -1,5 +1,7 @@
 package com.example.vma_project_2022_trade_game
 
+import android.content.Context
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.navigation.NavController
@@ -13,7 +15,8 @@ import com.google.firebase.ktx.Firebase
 class MainActivity : AppCompatActivity() {
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
+
+        override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Firebase.database.setPersistenceEnabled(true)
         setContentView(R.layout.activity_main)
