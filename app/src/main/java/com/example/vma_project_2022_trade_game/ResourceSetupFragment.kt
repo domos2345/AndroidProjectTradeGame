@@ -15,12 +15,12 @@ import java.util.logging.Logger
 
 
 class ResourceSetupFragment : Fragment(R.layout.fragment_resource_setup) {
-    val sp: SharedPreferences
-        get() = requireActivity().getSharedPreferences(
-            "prefs",
-            Context.MODE_PRIVATE
-        )
-    val editor get() = sp.edit()
+    lateinit var sp: SharedPreferences
+
+
+    lateinit var editor: SharedPreferences.Editor
+    val phase: String get() = sp.getInt("phase", 0).toString()
+
     val LOG = Logger.getLogger(this.javaClass.name)
 
     //val database =
@@ -30,15 +30,15 @@ class ResourceSetupFragment : Fragment(R.layout.fragment_resource_setup) {
     val binding get() = _binding!!
     //var resNamesList: ArrayList<EditText> = ArrayList()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+
+        sp = requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        editor = sp.edit()
+
         //Inflate the layout for this fragment
         //val view = inflater.inflate(R.layout.fragment_resource_setup, container, false)
         //val resCount: EditText = view.findViewById(R.id.resNumberTextField)

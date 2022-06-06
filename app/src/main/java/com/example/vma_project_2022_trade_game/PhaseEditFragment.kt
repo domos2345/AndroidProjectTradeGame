@@ -22,8 +22,10 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
     val binding get() = _binding!!
     val game get() = MyManager.gameActual
     val columnsCount get() = game.resCount + 1
-    val sp get() = requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE)
-    val editor get() = sp.edit()
+    lateinit var sp: SharedPreferences
+
+
+    lateinit var editor: SharedPreferences.Editor
     val phase: String get() = sp.getInt("phase", 0).toString()
 
 
@@ -42,7 +44,8 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        sp = requireActivity().getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        editor = sp.edit()
 
         // Inflate the layout for this fragment
         _binding = FragmentPhaseEditBinding.inflate(inflater, container, false)
@@ -69,7 +72,7 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
 
         binding.gridview.numColumns = columnsCount
         //view.findViewById<GridView>(R.id.gridview).numColumns = columnsCount
-        binding.nameOfPhase.text = "Fáza 1 "
+
         //listOfGridItems[6] = "work?"
         adapter.notifyDataSetChanged()
         /*for (i in 0..columnsCount) {
@@ -95,10 +98,16 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
 
         }
         binding.newPhaseButton.setOnClickListener {
-            editor.putInt("phase", sp.getInt("phase", 0) + 1)
+            incrementPhase()
+
             Toast.makeText(activity, phase, Toast.LENGTH_SHORT).show()
             uploadNewPhase()
         }
+    }
+
+    private fun incrementPhase() {
+        editor.putInt("phase", sp.getInt("phase", 0) + 1)
+        editor.apply()
     }
 
     private fun fillTableInitData() {
@@ -117,17 +126,19 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
     }
 
     private fun uploadNewPhase() {
-
+        binding.nameOfPhase.text = "Fáza $phase"
         val table: MutableMap<String, GridItemModel> = if (game.tables.containsKey(phase)) {
             game.tables[phase]!!
         } else {
             game.createNewPhaseTable(phase)
+
         }
 
         table.values.forEach {
             listOfGridItems[it.intPos] = it.gridItemText()
         }
         adapter.notifyDataSetChanged()
+        MyManager.uploadTable(table, phase)
     }
 
     override fun onDestroy() {

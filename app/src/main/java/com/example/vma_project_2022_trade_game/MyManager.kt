@@ -76,6 +76,15 @@ object MyManager {
         )
     }
 
+    fun uploadTable(table: MutableMap<String, GridItemModel>, phase: String) {
+        db.collection("games").document(gameActual.nameOfGame).update(
+            mapOf(
+                "tables.$phase" to table
+            )
+        )
+
+    }
+
 
 }
 
