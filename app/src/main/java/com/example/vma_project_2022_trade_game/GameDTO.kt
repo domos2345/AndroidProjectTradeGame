@@ -6,7 +6,14 @@ class GameBasicData(
     val resNames: Map<String, String>,
     val maxRatio: Int,
     val isOnlyOneToX: Boolean,
-    val tablesToDb: MutableMap<String, Map<String, String>>
+    val tablesToDb: MutableMap<String, Map<String, GridItemModel>>,
+    val testMap: Map<String, GridItemModel> = mapOf<String, GridItemModel>(
+        "1" to GridItemModel(
+            1,
+            2,
+            3
+        ), "2" to GridItemModel(1, 2, 3)
+    )
 ) {
 
 
