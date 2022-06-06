@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/resOneAndTwo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <EditText
+            android:id="@+id/resOneTextField"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:ems="8"
+            android:hint="res1"
+            android:inputType="number"
+            app:layout_constraintEnd_toStartOf="@+id/textBetweenRes1And2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/resOneAndTwo" />
+
+        <TextView
+            android:id="@+id/textBetweenRes1And2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text=" : "
+            android:textSize="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/resTwoTextField"
+            app:layout_constraintStart_toEndOf="@id/resOneTextField"
+            app:layout_constraintTop_toTopOf="@+id/resOneAndTwo">
+
+
+        </TextView>
+
+        <EditText
+            android:id="@+id/resTwoTextField"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:ems="8"
+            android:hint="res2"
+            android:inputType="number"
+            app:layout_constraintStart_toEndOf="@+id/textBetweenRes1And2"
+            app:layout_constraintTop_toTopOf="@+id/resOneAndTwo" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

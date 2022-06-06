@@ -1,23 +1,12 @@
 package com.example.vma_project_2022_trade_game
 
 import android.os.Bundle
-
-import android.text.TextUtils
-import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.EditText
 import android.widget.Toast
-import androidx.core.widget.addTextChangedListener
-import androidx.core.widget.doAfterTextChanged
-import androidx.navigation.NavController
 import androidx.navigation.Navigation
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.example.vma_project_2022_trade_game.databinding.FragmentMainMenuBinding
 import com.example.vma_project_2022_trade_game.databinding.FragmentResourceSetupBinding
 import com.google.firebase.database.FirebaseDatabase
 import java.util.logging.Logger
@@ -85,7 +74,13 @@ class ResourceSetupFragment : Fragment(R.layout.fragment_resource_setup) {
 
         LOG.warning("ACTUAL LOG ???  ${game.nameOfGame}")
         print("Game created and db tries to upload")
+        /*val database =
+            FirebaseDatabase.getInstance("https://tradegametoolvma2022-default-rtdb.europe-west1.firebasedatabase.app")
+                .getReference("Games")
+        database.child(game.nameOfGame).setValue(game).addOnSuccessListener {
+            MyManager.LOG.warning("OnSuccessListener -  uploaded ${game.nameOfGame}")*/
         MyManager.createNewGame(game)
+
     }
 
     override fun onDestroy() {

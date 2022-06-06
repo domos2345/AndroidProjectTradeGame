@@ -1,22 +1,26 @@
 package com.example.vma_project_2022_trade_game
 
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.SharedPreferences
-import android.graphics.Color
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.view.get
+import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
 import com.example.vma_project_2022_trade_game.databinding.FragmentPhaseEditBinding
+import java.lang.IllegalStateException
 
 
 class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit) {
 
     var _binding: FragmentPhaseEditBinding? = null
     val binding get() = _binding!!
+    val game get() = MyManager.gameActual
 
 
     var gridItems: ArrayList<String> = ArrayList()
@@ -57,6 +61,10 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit) {
             listOfGridItems[i * columnsCount] =
                 MyManager.gameActual.resNames[(i - 1).toString()].toString()
         }
+        game.tables["1"]!!.values.forEach {
+            listOfGridItems[it.intPos] = it.gridItemText()
+        }
+
 
         val adapter = GridAdapter(
             requireActivity(), listOfGridItems
@@ -64,12 +72,10 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit) {
         )
         binding.gridview.adapter = adapter
 
-
-
         binding.gridview.numColumns = columnsCount
         //view.findViewById<GridView>(R.id.gridview).numColumns = columnsCount
         binding.nameOfPhase.text = "Fáza 1 "
-        listOfGridItems[6] = "work?"
+        //listOfGridItems[6] = "work?"
         adapter.notifyDataSetChanged()
         /*for (i in 0..columnsCount) {
             binding.gridview[1 + (i * columnsCount + 1)].setBackgroundResource(R.color.black)
@@ -77,8 +83,18 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit) {
 
 
         binding.gridview.setOnItemClickListener { adapterView: AdapterView<*>, view1: View, i: Int, l: Long ->
-            Toast.makeText(activity, "grid item clicked", Toast.LENGTH_SHORT).show()
-            view1.findViewById<TextView>(R.id.gridItemText).text = "1:3"
+
+            //view1.findViewById<TextView>(R.id.gridItemText).text = "1:3"
+            //listOfGridItems[i] = "clicked"
+            if (Constants.isClickableGridItem(i)) {
+                Toast.makeText(activity, "CLICKABLE item", Toast.LENGTH_SHORT).show()
+                val dialogObject = ChangeItemDialog(listOfGridItems[i], i)
+                dialogObject.show(requireFragmentManager(), "dialogGridItem")
+            } else
+                Toast.makeText(activity, "grid item not CLICKABLE", Toast.LENGTH_SHORT).show()
+            // val dialogObject = ChangeItemDialog(listOfGridItems[i], i)
+
+            //adapter.notifyDataSetChanged()
 
         }
     }
@@ -86,6 +102,38 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit) {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    class ChangeItemDialog(val itemText: String, val pos: Int) : DialogFragment() {
+
+        override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
+            return activity?.let {
+                val builder = AlertDialog.Builder(it)
+                val inflater = requireActivity().layoutInflater
+                var dialogView = inflater.inflate(R.layout.change_grid_item_dialog, null)
+                val editTextRes1 = dialogView.findViewById<EditText>(R.id.resOneTextField)
+                val editTextRes2 = dialogView.findViewById<EditText>(R.id.resTwoTextField)
+
+                editTextRes1.hint = Constants.getRes1NameFromPos(
+                    pos
+                )
+
+                editTextRes2.hint = Constants.getRes2NameFromPos(
+                    pos
+                )
+                if (Constants.isClickableGridItem(pos, MyManager.gameActual.resCount)) {
+                    val texts = itemText.split(':')
+                    editTextRes1.setText(texts[0].trim())
+                    editTextRes2.setText(texts[1].trim())
+                }
+                builder.setView(dialogView).setPositiveButton(
+                    "Uložiť",
+                    DialogInterface.OnClickListener() { dialog, which ->
+                        println("ulozit button dialog")
+                    })
+                builder.create()
+            } ?: throw IllegalStateException("Activity cannot be null")
+        }
     }
 
 }
