@@ -57,14 +57,14 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
 
         fillTableInitData()
 
-
-        // FILL WITH ACTUAL TABLE DATA
-        uploadNewPhase()
-
         adapter = GridAdapter(
             requireActivity(), listOfGridItems
 
         )
+        // FILL WITH ACTUAL TABLE DATA
+        uploadNewPhase()
+
+
         binding.gridview.adapter = adapter
 
         binding.gridview.numColumns = columnsCount
