@@ -1,5 +1,7 @@
 package com.example.vma_project_2022_trade_game
 
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -13,7 +15,12 @@ import java.util.logging.Logger
 
 
 class ResourceSetupFragment : Fragment(R.layout.fragment_resource_setup) {
-
+    val sp: SharedPreferences
+        get() = requireActivity().getSharedPreferences(
+            "prefs",
+            Context.MODE_PRIVATE
+        )
+    val editor get() = sp.edit()
     val LOG = Logger.getLogger(this.javaClass.name)
 
     //val database =
@@ -52,8 +59,12 @@ class ResourceSetupFragment : Fragment(R.layout.fragment_resource_setup) {
         }
         binding.nextButton.setOnClickListener {
             saveInitialGame()
+            editor.putBoolean("edit", false)
+            editor.putInt("phase", 1)
+            editor.commit()
             Navigation.findNavController(view)
                 .navigate(R.id.action_resourceSetupFragment_to_phaseEditFragment)
+
         }
     }
 

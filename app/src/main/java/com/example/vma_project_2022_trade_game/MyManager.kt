@@ -1,6 +1,5 @@
 package com.example.vma_project_2022_trade_game
 
-import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.logging.Logger
 
@@ -8,20 +7,14 @@ import java.util.logging.Logger
 object MyManager {
 
     val resCount get() = gameActual.resCount
-
-    /*var database =
-        FirebaseDatabase.getInstance("https://tradegametoolvma2022-default-rtdb.europe-west1.firebasedatabase.app")
-            .getReference("Games")*/
-
+    val db = FirebaseFirestore.getInstance()
     val LOG = Logger.getLogger(this.javaClass.name)
 
     lateinit var gameActual: Game
 
     init {
         gameActual = Game("gen", 1, emptyMap(), 4, false)
-        /* database =
-             FirebaseDatabase.getInstance("https://tradegametoolvma2022-default-rtdb.europe-west1.firebasedatabase.app")
-                 .getReference("Games")*/
+
     }
 
     fun createNewGame(game: Game) {
@@ -35,8 +28,8 @@ object MyManager {
 
         LOG.warning("createNewGame running")
 
-        val db = FirebaseFirestore.getInstance()
-        db.collection("games").document(gameActual.nameOfGame).set(gameActual.getBasicDataGame())
+
+        db.collection("games").document(gameActual.nameOfGame).set(gameActual.getGameDTO())
             .addOnCompleteListener {
 
                 LOG.warning("ON COMPLETE LISTENER - Game ${game.nameOfGame} uploaded")
@@ -56,7 +49,7 @@ object MyManager {
     }
 
     fun uploadTables(tables: Map<String, Map<String, GridItemModel>>) {
-        val db = FirebaseFirestore.getInstance()
+
         db.collection("games").document(gameActual.nameOfGame).collection("tables")
             .document("phase1").collection("it.key").document("it.key").set("it.value")
 
@@ -66,6 +59,21 @@ object MyManager {
 
 
         //db.collection("games_tables").document(gameActual.nameOfGame).set(GridItemModel(2,3,4))
+    }
+
+    fun reUploadGame() {
+        db.collection("games").document(gameActual.nameOfGame).set(gameActual.getGameDTO())
+    }
+
+    fun updateSingleRatio(gridItem: GridItemModel, phase: String) {
+        val gridItemOpposite = gridItem.getItemOpposite()
+        db.collection("games").document(gameActual.nameOfGame).update(
+            mapOf(
+                "tables.$phase.${gridItem.intPos}" to gridItem,
+                "tables.$phase.${gridItemOpposite.intPos}" to gridItemOpposite
+
+            )
+        )
     }
 
 
