@@ -34,11 +34,6 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
     lateinit var adapter: GridAdapter
     var gridItems: ArrayList<String> = ArrayList()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
