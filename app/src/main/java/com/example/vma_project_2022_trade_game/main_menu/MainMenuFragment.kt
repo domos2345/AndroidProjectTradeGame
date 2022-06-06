@@ -1,21 +1,20 @@
-package com.example.vma_project_2022_trade_game
+package com.example.vma_project_2022_trade_game.main_menu
 
-import androidx.lifecycle.ViewModelProvider
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import androidx.fragment.app.viewModels
 import androidx.navigation.Navigation
-import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
+import com.example.vma_project_2022_trade_game.R
 import com.example.vma_project_2022_trade_game.databinding.FragmentMainMenuBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.util.logging.Logger
 
 class MainMenuFragment : Fragment(R.layout.fragment_main_menu) {
 
-    private lateinit var viewModel: MainMenuViewModel
+    val LOG = Logger.getLogger(this.javaClass.name)
+    private val viewModel by viewModels<MainMenuViewModel>()
     private var _binding: FragmentMainMenuBinding? = null
     private val binding get() = _binding!!
 
@@ -32,6 +31,10 @@ class MainMenuFragment : Fragment(R.layout.fragment_main_menu) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        viewModel.games.observe(requireActivity()) { games ->
+            LOG.info(games.toString())
+        }
 
         binding.addGameButton.setOnClickListener {
             Navigation.findNavController(view)

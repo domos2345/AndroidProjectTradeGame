@@ -4,8 +4,6 @@ Date: Mon, 6 Jun 2022 23:40:35 +0200
 Subject: [PATCH] wip
 
 ---
- .idea/.name                                   |  1 +
- .idea/misc.xml                                |  4 +-
  app/build.gradle                              |  1 +
  .../vma_project_2022_trade_game/Game.kt       | 12 +---
  .../vma_project_2022_trade_game/GameDTO.kt    | 68 ++++++++++++++++---
@@ -17,41 +15,11 @@ Subject: [PATCH] wip
  .../main/res/layout/fragment_main_menu.xml    |  2 +-
  app/src/main/res/navigation/my_nav.xml        |  2 +-
  12 files changed, 150 insertions(+), 36 deletions(-)
- create mode 100644 .idea/.name
  delete mode 100644 app/src/main/java/com/example/vma_project_2022_trade_game/MainMenuViewModel.kt
  create mode 100644 app/src/main/java/com/example/vma_project_2022_trade_game/main_menu/GamesRecyclerView.kt
  rename app/src/main/java/com/example/vma_project_2022_trade_game/{ => main_menu}/MainMenuFragment.kt (78%)
  create mode 100644 app/src/main/java/com/example/vma_project_2022_trade_game/main_menu/MainMenuViewModel.kt
 
-diff --git a/.idea/.name b/.idea/.name
-new file mode 100644
-index 0000000..669ae74
---- /dev/null
-+++ b/.idea/.name
-@@ -0,0 +1 @@
-+VMA_project_2022_trade_game
-\ No newline at end of file
-diff --git a/.idea/misc.xml b/.idea/misc.xml
-index 8796ed6..6e1ac0d 100644
---- a/.idea/misc.xml
-+++ b/.idea/misc.xml
-@@ -4,14 +4,14 @@
-     <option name="filePathToZoomLevelMap">
-       <map>
-         <entry key="..\:/Users/domos/AndroidStudioProjects/VMA_project_2022_trade_game/app/src/main/res/layout/activity_main.xml" value="0.1" />
--        <entry key="..\:/Users/domos/AndroidStudioProjects/VMA_project_2022_trade_game/app/src/main/res/layout/change_grid_item_dialog.xml" value="0.4466666666666667" />
-         <entry key="..\:/Users/domos/AndroidStudioProjects/VMA_project_2022_trade_game/app/src/main/res/layout/fragment_main_menu.xml" value="0.3458333333333333" />
-         <entry key="..\:/Users/domos/AndroidStudioProjects/VMA_project_2022_trade_game/app/src/main/res/layout/fragment_phase_edit.xml" value="0.16666666666666666" />
-         <entry key="..\:/Users/domos/AndroidStudioProjects/VMA_project_2022_trade_game/app/src/main/res/layout/fragment_resource_setup.xml" value="0.3333333333333333" />
--        <entry key="..\:/Users/domos/AndroidStudioProjects/VMA_project_2022_trade_game/app/src/main/res/layout/game_item.xml" value="0.16458333333333333" />
-         <entry key="..\:/Users/domos/AndroidStudioProjects/VMA_project_2022_trade_game/app/src/main/res/layout/grid_item.xml" value="0.4190871369294606" />
-         <entry key="..\:/Users/domos/AndroidStudioProjects/VMA_project_2022_trade_game/app/src/main/res/layout/res_names_list_item.xml" value="0.1828125" />
-         <entry key="..\:/Users/domos/AndroidStudioProjects/VMA_project_2022_trade_game/app/src/main/res/layout/table_item.xml" value="0.35885416666666664" />
-+        <entry key="..\:/skola/AndroidProjects/AndroidProjectTradeGame/app/src/main/res/layout/fragment_main_menu.xml" value="0.11145833333333334" />
-+        <entry key="..\:/skola/AndroidProjects/AndroidProjectTradeGame/app/src/main/res/layout/game_item.xml" value="0.11145833333333334" />
-       </map>
-     </option>
-   </component>
 diff --git a/app/build.gradle b/app/build.gradle
 index a653a2a..831cecd 100644
 --- a/app/build.gradle

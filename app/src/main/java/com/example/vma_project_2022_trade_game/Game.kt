@@ -6,14 +6,8 @@ class Game(
     val resNames: Map<String, String>,
     val maxRatio: Int,
     val isOnlyOneToX: Boolean,
-
-    ) {
-
-    //val tables: ArrayList<Map<String, GridItemModel>> = arrayListOf()
-    var tables: MutableMap<String, MutableMap<String, GridItemModel>> =
-        mutableMapOf<String, MutableMap<String, GridItemModel>>()
-    //val tables: MutableMap<String, Map<String, String>> = mutableMapOf()
-
+    val tables: MutableMap<String, MutableMap<String, GridItemModel>> = mutableMapOf()
+) {
 
     fun generateGridItems(phase: Int) {
         var tableAct: MutableMap<String, GridItemModel> = mutableMapOf<String, GridItemModel>()
@@ -60,7 +54,7 @@ class Game(
     }
 
     override fun toString(): String {
-        return "Game(nameOfGame='$nameOfGame', resCount=$resCount, resNames=$resNames, maxRatio=$maxRatio, isOnlyOneToX=$isOnlyOneToX)"
+        return "Game(nameOfGame='$nameOfGame', resCount=$resCount, resNames=$resNames, maxRatio=$maxRatio, isOnlyOneToX=$isOnlyOneToX), tables=$tables"
     }
 
     fun getGameDTO(): GameDTO {
