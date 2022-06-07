@@ -1,4 +1,8 @@
-package com.example.vma_project_2022_trade_game
+package com.example.vma_project_2022_trade_game.data
+
+import com.example.vma_project_2022_trade_game.GridItemModel
+import com.example.vma_project_2022_trade_game.MyManager
+import com.example.vma_project_2022_trade_game.getItemOpposite
 
 class Game(
     val nameOfGame: String,
@@ -93,7 +97,7 @@ class Game(
 
             }
         }
-        tables[phase.toString()] = tableAct
+        tables[phase] = tableAct
         return tableAct
     }
 

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import com.example.vma_project_2022_trade_game.data.Constants
 import com.example.vma_project_2022_trade_game.databinding.FragmentPhaseEditBinding
 import java.lang.IllegalStateException
 
@@ -20,19 +21,18 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
 
     var _binding: FragmentPhaseEditBinding? = null
     val binding get() = _binding!!
-    val game get() = MyManager.gameActual
-    val columnsCount get() = game.resCount + 1
+    val gameAct get() = MyManager.gameActual
+    val columnsCount get() = gameAct.resCount + 1
+
     lateinit var sp: SharedPreferences
-
-
     lateinit var editor: SharedPreferences.Editor
     val phase: String get() = sp.getInt("phase", 0).toString()
 
 
     lateinit var listOfGridItems: MutableList<String>
 
-    lateinit var adapter: GridAdapter
-    var gridItems: ArrayList<String> = ArrayList()
+    lateinit var adapter: GridAdapterEditMode
+
 
 
     override fun onCreateView(
@@ -55,7 +55,7 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
 
         fillTableInitData()
 
-        adapter = GridAdapter(
+        adapter = GridAdapterEditMode(
             requireActivity(), listOfGridItems
 
         )
@@ -82,7 +82,7 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
             if (Constants.isClickableGridItem(i)) {
                 Toast.makeText(activity, "CLICKABLE item", Toast.LENGTH_SHORT).show()
                 val dialogObject = ChangeItemDialog(
-                    game.tables["1"]?.get(i.toString()) ?: GridItemModel(0, 0, 0), this
+                    gameAct.tables["1"]?.get(i.toString()) ?: GridItemModel(0, 0, 0), this
                 )
                 dialogObject.show(requireFragmentManager(), "dialogGridItem")
             } else
@@ -93,16 +93,42 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
 
         }
         binding.newPhaseButton.setOnClickListener {
-            incrementPhase()
-
+            incrementPhaseToLastPlusOne()
             Toast.makeText(activity, phase, Toast.LENGTH_SHORT).show()
             uploadNewPhase()
         }
+
+        binding.nextPhaseButton.setOnClickListener {
+            incrementPhase()
+            uploadNewPhase()
+        }
+        binding.previousPhaseButton.setOnClickListener {
+            decrementPhase()
+            uploadNewPhase()
+        }
+    }
+
+    private fun incrementPhaseToLastPlusOne() {
+        editor.putInt("phase", gameAct.tables.size + 1)
+        editor.apply()
     }
 
     private fun incrementPhase() {
         editor.putInt("phase", sp.getInt("phase", 0) + 1)
         editor.apply()
+    }
+
+    private fun decrementPhase() {
+        editor.putInt("phase", sp.getInt("phase", 0) - 1)
+        editor.apply()
+    }
+
+    private fun hasPreviousPhase(): Boolean {
+        return gameAct.tables.containsKey((sp.getInt("phase", 0) - 1).toString())
+    }
+
+    private fun hasNextPhase(): Boolean {
+        return gameAct.tables.containsKey((sp.getInt("phase", 0) + 1).toString())
     }
 
     private fun fillTableInitData() {
@@ -122,10 +148,10 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
 
     private fun uploadNewPhase() {
         binding.nameOfPhase.text = "Fáza $phase"
-        val table: MutableMap<String, GridItemModel> = if (game.tables.containsKey(phase)) {
-            game.tables[phase]!!
+        val table: MutableMap<String, GridItemModel> = if (gameAct.tables.containsKey(phase)) {
+            gameAct.tables[phase]!!
         } else {
-            game.createNewPhaseTable(phase)
+            gameAct.createNewPhaseTable(phase)
 
         }
 
@@ -134,6 +160,14 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
         }
         adapter.notifyDataSetChanged()
         MyManager.uploadTable(table, phase)
+        val hasPrevious = hasPreviousPhase()
+        val hasNext = hasNextPhase()
+        binding.previousPhaseButton.isClickable = hasPrevious
+        binding.previousPhaseButton.visibility = if (hasPrevious) View.VISIBLE else View.INVISIBLE
+
+        binding.nextPhaseButton.isClickable = hasNext
+        binding.nextPhaseButton.visibility = if (hasNext) View.VISIBLE else View.INVISIBLE
+
     }
 
     override fun onDestroy() {
@@ -193,7 +227,7 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
         //
         //
         // TODO
-        game.updateSingleRatio(gridItem, phase)
+        gameAct.updateSingleRatio(gridItem, phase)
         val gridItemOpposite = gridItem.getItemOpposite()
         //game.updateSingleRatio(gridItemOpposite, phase)
         listOfGridItems[gridItem.intPos] = gridItem.gridItemText()

@@ -1,4 +1,4 @@
-package com.example.vma_project_2022_trade_game
+package com.example.vma_project_2022_trade_game.playing_game
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -9,8 +9,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.Navigation
+import com.example.vma_project_2022_trade_game.*
+import com.example.vma_project_2022_trade_game.data.Constants
+import com.example.vma_project_2022_trade_game.data.Game
 import com.example.vma_project_2022_trade_game.databinding.FragmentResourceSetupBinding
-import com.google.firebase.database.FirebaseDatabase
 import java.util.logging.Logger
 
 
@@ -22,6 +24,7 @@ class ResourceSetupFragment : Fragment(R.layout.fragment_resource_setup) {
     val phase: String get() = sp.getInt("phase", 0).toString()
 
     val LOG = Logger.getLogger(this.javaClass.name)
+    val gameAct get() = MyManager.gameActual
 
     //val database =
     //    FirebaseDatabase.getInstance("https://tradegametoolvma2022-default-rtdb.europe-west1.firebasedatabase.app").getReference("Games")
@@ -53,19 +56,26 @@ class ResourceSetupFragment : Fragment(R.layout.fragment_resource_setup) {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        initFragmentData()
         binding.onlyOneToXCheckbox.setOnClickListener {
             Toast.makeText(activity, "checkbox clicked", Toast.LENGTH_SHORT).show()
-
         }
         binding.nextButton.setOnClickListener {
             saveInitialGame()
-            editor.putBoolean("edit", false)
+            //editor.putBoolean("edit", false)
             editor.putInt("phase", 1)
             editor.commit()
             Navigation.findNavController(view)
                 .navigate(R.id.action_resourceSetupFragment_to_phaseEditFragment)
 
         }
+    }
+
+    private fun initFragmentData() {
+        binding.nameOfGameTextField.setText(gameAct.nameOfGame)
+        binding.onlyOneToXCheckbox.isChecked = gameAct.isOnlyOneToX
+        binding.maxRatioTextField.setText(gameAct.maxRatio.toString())
+        binding.resNamesTextField.setText(Constants.gerResourcesForTextField(gameAct.resNames))
     }
 
     private fun saveInitialGame() {
@@ -75,12 +85,18 @@ class ResourceSetupFragment : Fragment(R.layout.fragment_resource_setup) {
         val resNamesMap: Map<String, String> =
             resNames.associateBy { resNames.indexOf(it).toString() }
 
+        var tables: MutableMap<String, MutableMap<String, GridItemModel>> = mutableMapOf()
+        if (resNames.size == gameAct.resCount) {
+            LOG.warning("same number of Resources -> leave the old tables")
+            tables = gameAct.tables
+        }
         val game = Game(
             binding.nameOfGameTextField.text.toString(),
             resNames.size,
             resNamesMap,
             Integer.parseInt(binding.maxRatioTextField.text.toString()),
-            binding.onlyOneToXCheckbox.isChecked
+            binding.onlyOneToXCheckbox.isChecked,
+            tables
         )
 
         LOG.warning("ACTUAL LOG ???  ${game.nameOfGame}")

@@ -1,5 +1,6 @@
 package com.example.vma_project_2022_trade_game
 
+import com.example.vma_project_2022_trade_game.data.Game
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.logging.Logger
 
@@ -10,25 +11,35 @@ object MyManager {
     val db = FirebaseFirestore.getInstance()
     val LOG = Logger.getLogger(this.javaClass.name)
 
-    lateinit var gameActual: Game
+    var gameActual: Game =
+        Game("Moja Hra", 3, mapOf("0" to "drevo", "1" to "kameň", "2" to "železo"), 4, false)
+    val genericGame: Game =
+        Game("Moja Hra", 3, mapOf("0" to "drevo", "1" to "kameň", "2" to "železo"), 4, false)
 
     init {
-        gameActual = Game("gen", 1, emptyMap(), 4, false)
+        //gameActual =
+
 
     }
 
     fun createNewGame(game: Game) {
         gameActual =
-            Game(game.nameOfGame, game.resCount, game.resNames, game.maxRatio, game.isOnlyOneToX)
+            Game(
+                game.nameOfGame,
+                game.resCount,
+                game.resNames,
+                game.maxRatio,
+                game.isOnlyOneToX,
+                game.tables
+            )
         println(gameActual.toString())
-        gameActual.generateGridItems(1)
+        if (gameActual.tables.isEmpty()) {
+            gameActual.generateGridItems(1)
+        }
+
         println(gameActual.toString())
-        println("" + Constants.isClickableGridItem(5) + " is 5 clickable???")
-        //LOG.warning(gameActual.tables[0].entries.size.toString())
 
         LOG.warning("createNewGame running")
-
-
         db.collection("games").document(gameActual.nameOfGame).set(gameActual.getGameDTO())
             .addOnCompleteListener {
 

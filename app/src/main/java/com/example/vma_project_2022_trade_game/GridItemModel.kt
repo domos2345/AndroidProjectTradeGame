@@ -1,12 +1,15 @@
 package com.example.vma_project_2022_trade_game
 
+import com.example.vma_project_2022_trade_game.MyManager
+import com.example.vma_project_2022_trade_game.data.Constants
+
 
 class GridItemModel() {
     var intPos: Int = 0
     var res1Val: Int = 0
     var res2Val: Int = 0
 
-    constructor(intPos: Int, res1Val: Int, res2Val: Int): this() {
+    constructor(intPos: Int, res1Val: Int, res2Val: Int) : this() {
         this.intPos = intPos
         this.res1Val = res1Val
         this.res2Val = res2Val

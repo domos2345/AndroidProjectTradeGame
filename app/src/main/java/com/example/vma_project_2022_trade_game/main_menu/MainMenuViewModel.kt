@@ -3,9 +3,9 @@ package com.example.vma_project_2022_trade_game.main_menu
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.vma_project_2022_trade_game.Game
-import com.example.vma_project_2022_trade_game.GameDTO
-import com.example.vma_project_2022_trade_game.toGame
+import com.example.vma_project_2022_trade_game.data.Game
+import com.example.vma_project_2022_trade_game.data.GameDTO
+import com.example.vma_project_2022_trade_game.data.toGame
 import com.google.firebase.firestore.FirebaseFirestore
 import java.util.logging.Logger
 

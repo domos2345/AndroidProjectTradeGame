@@ -1,4 +1,6 @@
-package com.example.vma_project_2022_trade_game
+package com.example.vma_project_2022_trade_game.data
+
+import com.example.vma_project_2022_trade_game.GridItemModel
 
 class GameDTO() {
     var nameOfGame: String = ""

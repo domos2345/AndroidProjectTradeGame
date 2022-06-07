@@ -13,10 +13,13 @@
         <action
             android:id="@+id/action_mainMenuFragment_to_resourceSetupFragment"
             app:destination="@id/resourceSetupFragment" />
+        <action
+            android:id="@+id/action_mainMenuFragment_to_playingGameFragment"
+            app:destination="@id/playingGameFragment" />
     </fragment>
     <fragment
         android:id="@+id/resourceSetupFragment"
-        android:name="com.example.vma_project_2022_trade_game.ResourceSetupFragment"
+        android:name="com.example.vma_project_2022_trade_game.playing_game.ResourceSetupFragment"
         android:label="fragment_resource_setup"
         tools:layout="@layout/fragment_resource_setup" >
         <action
@@ -28,4 +31,9 @@
         android:name="com.example.vma_project_2022_trade_game.PhaseEditFragment"
         android:label="fragment_phase_edit"
         tools:layout="@layout/fragment_phase_edit" />
+    <fragment
+        android:id="@+id/playingGameFragment"
+        android:name="com.example.vma_project_2022_trade_game.playing_game.PlayingGameFragment"
+        android:label="fragment_playing_game"
+        tools:layout="@layout/fragment_playing_game" />
 </navigation>

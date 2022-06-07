@@ -1,24 +1,21 @@
-package com.example.vma_project_2022_trade_game
+package com.example.vma_project_2022_trade_game.playing_game
 
 import android.content.Context
-import android.graphics.Color
-import android.provider.CalendarContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.BaseAdapter
 import android.widget.TextView
-import androidx.appcompat.R.color
+import com.example.vma_project_2022_trade_game.R
 
-class GridAdapter(val context: Context,var texts : List<String>) : BaseAdapter() {
-
+class GridAdapterPlayMode(val context: Context, var texts: List<String>) : BaseAdapter() {
 
     override fun getCount(): Int {
-       return texts.size
+        return texts.size
     }
 
     override fun getItem(p0: Int): Any {
-       return texts[p0]
+        return texts[p0]
     }
 
     override fun getItemId(p0: Int): Long {
@@ -29,12 +26,9 @@ class GridAdapter(val context: Context,var texts : List<String>) : BaseAdapter()
         val text = texts[p0]
         var inflater = context!!.getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
 
-        val view = inflater.inflate(R.layout.grid_item,null)
+        val view = inflater.inflate(R.layout.grid_item, null)
         view.findViewById<TextView>(R.id.gridItemText).text = text
 
-        //view.findViewById<TextView>(R.id.gridItemText).setBackgroundResource(R.color.black)
         return view
-
-
     }
 }

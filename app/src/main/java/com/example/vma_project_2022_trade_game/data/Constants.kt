@@ -1,4 +1,7 @@
-package com.example.vma_project_2022_trade_game
+package com.example.vma_project_2022_trade_game.data
+
+import com.example.vma_project_2022_trade_game.GridItemModel
+import com.example.vma_project_2022_trade_game.MyManager
 
 object Constants {
 
@@ -51,6 +54,15 @@ object Constants {
             Integer.parseInt(list[1]),
             Integer.parseInt(list[2])
         )
+    }
+
+    fun gerResourcesForTextField(resNames: Map<String, String>): String {
+        var str: String = ""
+        for (i in 0 until resNames.size) {
+            str += resNames[i.toString()]
+            if (i < resNames.size - 1) str += ","
+        }
+        return str
     }
 
     /* fun gridItemText(): String = "$res1Val : $res2Val"

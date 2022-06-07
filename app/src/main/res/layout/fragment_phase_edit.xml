@@ -8,13 +8,43 @@
     tools:context=".PhaseEditFragment">
 
 
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/previousPhaseButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginStart="15dp"
+
+        android:layout_marginTop="10dp"
+        app:icon="@drawable/ic_baseline_keyboard_arrow_left_24"
+
+        app:iconGravity="end"
+        app:layout_constraintStart_toStartOf="parent"
+
+        app:layout_constraintTop_toBottomOf="@+id/gridview" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/nextPhaseButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="15dp"
+        android:text="Button"
+        app:icon="@drawable/ic_baseline_keyboard_arrow_right_24"
+        app:iconGravity="start"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/gridview" />
+
     <TextView
         android:id="@+id/nameOfPhase"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
         android:text="TextView"
-        android:textSize="16dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -47,25 +77,26 @@
 
     <Button
         android:id="@+id/newPhaseButton"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dp"
-        android:text="ďalšia fáza"
+        android:text="vytvoríť novú fázu
+"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/saveGameButton"
+
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/checkCyclesButton" />
 
     <Button
         android:id="@+id/saveGameButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
         android:text="uložiť hru"
-        app:layout_constraintEnd_toStartOf="@+id/newPhaseButton"
-        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/checkCyclesButton" />
+        app:layout_constraintTop_toBottomOf="@+id/newPhaseButton" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
