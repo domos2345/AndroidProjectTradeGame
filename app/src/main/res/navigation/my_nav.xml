@@ -9,7 +9,7 @@
         android:id="@+id/mainMenuFragment"
         android:name="com.example.vma_project_2022_trade_game.main_menu.MainMenuFragment"
         android:label="fragment_main_menu"
-        tools:layout="@layout/fragment_main_menu" >
+        tools:layout="@layout/fragment_main_menu">
         <action
             android:id="@+id/action_mainMenuFragment_to_resourceSetupFragment"
             app:destination="@id/resourceSetupFragment" />
@@ -21,7 +21,7 @@
         android:id="@+id/resourceSetupFragment"
         android:name="com.example.vma_project_2022_trade_game.playing_game.ResourceSetupFragment"
         android:label="fragment_resource_setup"
-        tools:layout="@layout/fragment_resource_setup" >
+        tools:layout="@layout/fragment_resource_setup">
         <action
             android:id="@+id/action_resourceSetupFragment_to_phaseEditFragment"
             app:destination="@id/phaseEditFragment" />
@@ -30,10 +30,45 @@
         android:id="@+id/phaseEditFragment"
         android:name="com.example.vma_project_2022_trade_game.PhaseEditFragment"
         android:label="fragment_phase_edit"
-        tools:layout="@layout/fragment_phase_edit" />
+        tools:layout="@layout/fragment_phase_edit">
+        <action
+            android:id="@+id/action_phaseEditFragment_to_mainMenuFragment"
+            app:destination="@id/mainMenuFragment"
+            app:popUpTo="@+id/mainMenuFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
     <fragment
         android:id="@+id/playingGameFragment"
         android:name="com.example.vma_project_2022_trade_game.playing_game.PlayingGameFragment"
         android:label="fragment_playing_game"
-        tools:layout="@layout/fragment_playing_game" />
+        tools:layout="@layout/fragment_playing_game">
+        <action
+            android:id="@+id/action_playingGameFragment_to_setResourcesInGameFragment"
+            app:destination="@id/setResourcesInGameFragment" />
+        <action
+            android:id="@+id/action_playingGameFragment_to_tradeFragment"
+            app:destination="@id/tradeFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/setResourcesInGameFragment"
+        android:name="com.example.vma_project_2022_trade_game.SetResourcesInGameFragment"
+        android:label="fragment_set_resources_in_game"
+        tools:layout="@layout/fragment_set_resources_in_game">
+        <action
+            android:id="@+id/action_setResourcesInGameFragment_to_playingGameFragment"
+            app:destination="@id/playingGameFragment"
+            app:popUpTo="@+id/playingGameFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/tradeFragment"
+        android:name="com.example.vma_project_2022_trade_game.playing_game.TradeFragment"
+        android:label="fragment_trade"
+        tools:layout="@layout/fragment_trade">
+        <action
+            android:id="@+id/action_tradeFragment_to_playingGameFragment"
+            app:destination="@id/playingGameFragment"
+            app:popUpTo="@id/playingGameFragment"
+            app:popUpToInclusive="true" />
+    </fragment>
 </navigation>

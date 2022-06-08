@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout5"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".playing_game.TradeFragment">
+
+    <TextView
+        android:id="@+id/resOneTradeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+
+        android:layout_marginEnd="10dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/sellTextField"
+        app:layout_constraintTop_toTopOf="@id/sellTextField" />
+
+    <EditText
+        android:id="@+id/sellTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="50dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView5"
+        android:layout_width="59dp"
+        android:layout_height="21dp"
+        android:layout_marginBottom="5dp"
+        android:text="predám..."
+        app:layout_constraintBottom_toTopOf="@+id/sellTextField"
+        app:layout_constraintEnd_toEndOf="@+id/sellTextField"
+        app:layout_constraintStart_toStartOf="@+id/sellTextField" />
+
+
+    <TextView
+        android:id="@+id/resTwoTradeTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+
+        android:layout_marginEnd="10dp"
+        android:text="TextView"
+        android:textColor="@color/black"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toStartOf="@+id/sellTextField"
+        app:layout_constraintTop_toTopOf="@id/gotTextField" />
+
+    <EditText
+        android:id="@+id/gotTextField"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="150dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView11"
+        android:layout_width="59dp"
+        android:layout_height="21dp"
+        android:layout_marginBottom="5dp"
+        android:text="za..."
+        app:layout_constraintBottom_toTopOf="@+id/gotTextField"
+        app:layout_constraintEnd_toEndOf="@+id/gotTextField"
+        app:layout_constraintStart_toStartOf="@+id/gotTextField" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/swapButton"
+        style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:icon="@drawable/ic_baseline_swap_vert_24"
+        app:layout_constraintBottom_toTopOf="@+id/resTwoTradeTextView"
+        app:layout_constraintEnd_toEndOf="@+id/resOneTradeTextView"
+        app:layout_constraintStart_toStartOf="@+id/resOneTradeTextView"
+        app:layout_constraintTop_toBottomOf="@+id/resOneTradeTextView">
+
+    </com.google.android.material.button.MaterialButton>
+
+    <Button
+        android:id="@+id/sellAllButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="20dp"
+        android:text="všetko"
+
+        app:layout_constraintBottom_toTopOf="@+id/gotTextField"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/sellTextField" />
+
+    <Button
+        android:id="@+id/makeTradeButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="spraviť obchod"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/gotTextField"
+        app:layout_constraintStart_toStartOf="@+id/gotTextField"
+        app:layout_constraintTop_toBottomOf="@+id/gotTextField" />
+</androidx.constraintlayout.widget.ConstraintLayout>

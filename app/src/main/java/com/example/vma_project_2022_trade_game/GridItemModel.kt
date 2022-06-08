@@ -49,10 +49,10 @@ fun col(): Int = intPos % (MyManager.resCount + 1)
 fun getItemOpposite(): GridItemModel {
     return GridItemModel(Constants.fromTupleToPosInt(col(), row()), res2Val, res1Val)
 }
-
-override fun toString(): String {
-    return "$intPos,$res1Val,$res2Val"
 }*/
+fun GridItemModel.toBundleString(): String {
+    return "$intPos,$res1Val,$res2Val"
+}
 
 fun GridItemModel.gridItemText(): String = "$res1Val : $res2Val"
 

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.vma_project_2022_trade_game.data.Game
 import com.example.vma_project_2022_trade_game.MyManager
 import com.example.vma_project_2022_trade_game.R
+import com.example.vma_project_2022_trade_game.data.Constants
 import com.example.vma_project_2022_trade_game.databinding.FragmentMainMenuBinding
 import java.util.logging.Logger
 
@@ -78,13 +79,19 @@ class MainMenuFragment : Fragment(R.layout.fragment_main_menu), RecyclerViewCall
         MyManager.gameActual = game
         editor.putBoolean("edit", false)
         editor.putInt("phase", 1)
+        val bundle = Bundle()
+        bundle.putString(
+            "data",
+            Constants.getResValuesAsString(Constants.generateResValues() as MutableMap<Int, Int>)
+        )
         Navigation.findNavController(binding.addGameButton)
-            .navigate(R.id.action_mainMenuFragment_to_playingGameFragment)
+            .navigate(R.id.action_mainMenuFragment_to_playingGameFragment, bundle)
     }
 
     override fun editGame(game: Game) {
         MyManager.gameActual = game
         editor.putBoolean("edit", true)
+
         Navigation.findNavController(binding.addGameButton)
             .navigate(R.id.action_mainMenuFragment_to_resourceSetupFragment)
     }

@@ -7,10 +7,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.navigation.Navigation
 import com.example.vma_project_2022_trade_game.*
-import com.example.vma_project_2022_trade_game.databinding.FragmentPhaseEditBinding
+import com.example.vma_project_2022_trade_game.data.Constants
+import com.example.vma_project_2022_trade_game.data.TradeDataModel
 import com.example.vma_project_2022_trade_game.databinding.FragmentPlayingGameBinding
+import java.util.logging.Logger
 
 
 class PlayingGameFragment : Fragment(R.layout.fragment_playing_game) {
@@ -26,6 +28,11 @@ class PlayingGameFragment : Fragment(R.layout.fragment_playing_game) {
 
     lateinit var listOfGridItems: MutableList<String>
     lateinit var adapter: GridAdapterPlayMode
+    var resValues: MutableMap<Int, Int> =
+        Constants.generateResValues(gameAct.resNames) as MutableMap<Int, Int>
+    private val KEY_TRADE_MODEL = "tradeDataModelBundle"
+    private val KEY_TRADE_MADE = "tradeMade"
+    val LOG = Logger.getLogger(this.javaClass.name)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -41,6 +48,34 @@ class PlayingGameFragment : Fragment(R.layout.fragment_playing_game) {
 
         // Inflate the layout for this fragment
         _binding = FragmentPlayingGameBinding.inflate(inflater, container, false)
+        val args = this.arguments
+        val inputData = args?.get("data")
+        val inputDataOfTrade = args?.getString(KEY_TRADE_MADE)
+
+        //if (this.arguments?.getString("data") != null) {
+        LOG.warning(inputData.toString() + "  -> Bundle from data")
+        if (inputData != null) {
+            resValues =
+                Constants.getResValuesFromString(inputData.toString()) as MutableMap<Int, Int>
+        }
+        println("" + resValues + "  :  resAndValues")
+        if (inputDataOfTrade != null) {
+            val list = inputDataOfTrade.split(",")
+            var newRes1: Int = resValues[Integer.parseInt(list[0])]!!
+            newRes1 += (Integer.parseInt(list[1]))
+            resValues[Integer.parseInt(list[0])] =
+                (newRes1)
+
+            var newRes2: Int = resValues[Integer.parseInt(list[2])]!!
+            newRes1 += (Integer.parseInt(list[3]))
+            resValues[Integer.parseInt(list[0])] =
+                (newRes2)
+        }
+        println("" + resValues + "  :  resAndValues")
+
+
+        // } else resValues = Constants.generateResValues()
+
         return binding.root
     }
 
@@ -52,13 +87,20 @@ class PlayingGameFragment : Fragment(R.layout.fragment_playing_game) {
             requireActivity(), listOfGridItems
         )
         uploadNewPhase()
-
+        //GridView gridView = (GridView)findViewById(...);
+        //ViewGroup.LayoutParams lp=new ViewGroup.LayoutParams(width,height);
+        //gridView.setLayoutParams(lp);
+        val gridView = binding.gridviewInGame
+        val lp: ViewGroup.LayoutParams = gridView.layoutParams
+        lp.height = (gameAct.resCount + 1) * 80
+        gridView.layoutParams = lp
         binding.gridviewInGame.adapter = adapter
         binding.gridviewInGame.numColumns = columnsCount
         adapter.notifyDataSetChanged()
+        // val args: Bundle
 
 
-
+        binding.resourcesActTextView.text = Constants.createResActText(resValues)
         binding.nextPhaseButtonInGame.setOnClickListener {
             incrementPhase()
             uploadNewPhase()
@@ -66,6 +108,30 @@ class PlayingGameFragment : Fragment(R.layout.fragment_playing_game) {
         binding.previousPhaseButtonInGame.setOnClickListener {
             decrementPhase()
             uploadNewPhase()
+        }
+
+        binding.setResourcesButton.setOnClickListener {
+            Navigation.findNavController(view)
+                .navigate(R.id.action_playingGameFragment_to_setResourcesInGameFragment)
+        }
+
+        binding.gridviewInGame.setOnItemClickListener { _, view, i, l ->
+            if (Constants.isClickableGridItem(i)) {
+                val row = Constants.rowResIdFromPos(i)
+                val col = Constants.colResIdFromPos(i)
+                val tradeDataModel = TradeDataModel(
+                    row, gameAct.getResRatio(phase, i, true),
+                    resValues[row]!!, col, gameAct.getResRatio(phase, i, false), resValues[col]!!
+                )
+                val bundle = Bundle()
+                bundle.putString(KEY_TRADE_MODEL, tradeDataModel.toBundleString())
+                Navigation.findNavController(view)
+                    .navigate(
+                        R.id.action_playingGameFragment_to_tradeFragment,
+                        bundle
+                    )
+            }
+
         }
     }
 

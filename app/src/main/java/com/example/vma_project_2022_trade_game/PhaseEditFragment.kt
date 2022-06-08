@@ -12,12 +12,13 @@ import android.view.ViewGroup
 import android.widget.*
 import androidx.fragment.app.DialogFragment
 import androidx.fragment.app.Fragment
+import androidx.navigation.Navigation
 import com.example.vma_project_2022_trade_game.data.Constants
 import com.example.vma_project_2022_trade_game.databinding.FragmentPhaseEditBinding
 import java.lang.IllegalStateException
 
 
-class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate {
+class PhaseEditFragment() : Fragment(R.layout.fragment_phase_edit), GridItemUpdate {
 
     var _binding: FragmentPhaseEditBinding? = null
     val binding get() = _binding!!
@@ -32,7 +33,6 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
     lateinit var listOfGridItems: MutableList<String>
 
     lateinit var adapter: GridAdapterEditMode
-
 
 
     override fun onCreateView(
@@ -80,13 +80,13 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
             //view1.findViewById<TextView>(R.id.gridItemText).text = "1:3"
             //listOfGridItems[i] = "clicked"
             if (Constants.isClickableGridItem(i)) {
-                Toast.makeText(activity, "CLICKABLE item", Toast.LENGTH_SHORT).show()
+                //Toast.makeText(activity, "CLICKABLE item", Toast.LENGTH_SHORT).show()
                 val dialogObject = ChangeItemDialog(
-                    gameAct.tables["1"]?.get(i.toString()) ?: GridItemModel(0, 0, 0), this
+                    gameAct.tables[phase]?.get(i.toString()) ?: GridItemModel(0, 0, 0), this
                 )
-                dialogObject.show(requireFragmentManager(), "dialogGridItem")
-            } else
-                Toast.makeText(activity, "grid item not CLICKABLE", Toast.LENGTH_SHORT).show()
+                dialogObject.show(parentFragmentManager, "dialogGridItem")
+            }
+            //Toast.makeText(activity, "grid item not CLICKABLE", Toast.LENGTH_SHORT).show()
             // val dialogObject = ChangeItemDialog(listOfGridItems[i], i)
 
             //adapter.notifyDataSetChanged()
@@ -105,6 +105,10 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
         binding.previousPhaseButton.setOnClickListener {
             decrementPhase()
             uploadNewPhase()
+        }
+        binding.saveGameButton.setOnClickListener {
+            Navigation.findNavController(it)
+                .navigate(R.id.action_phaseEditFragment_to_mainMenuFragment)
         }
     }
 
@@ -175,58 +179,74 @@ class PhaseEditFragment : Fragment(R.layout.fragment_phase_edit), GridItemUpdate
         _binding = null
     }
 
-    class ChangeItemDialog(val gridItem: GridItemModel, val gridItemUpdate: GridItemUpdate) :
+    class ChangeItemDialog(var gridItem: GridItemModel, val gridItemUpdate: GridItemUpdate) :
         DialogFragment() {
-
+        private val KEY = "bundleDialogKey"
         override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-            return activity?.let {
-                val builder = AlertDialog.Builder(it)
-                val inflater = requireActivity().layoutInflater
-                var dialogView = inflater.inflate(R.layout.change_grid_item_dialog, null)
-                val editTextRes1 = dialogView.findViewById<EditText>(R.id.resOneTextField)
-                val editTextRes2 = dialogView.findViewById<EditText>(R.id.resTwoTextField)
+            savedInstanceState.let {
+                if (gridItem == null) {
+                    val strFromBundle = it?.getString(KEY)
+                    if (strFromBundle == null) {
+                        gridItem = GridItemModel(1, 1, -40)
 
-                editTextRes1.hint = Constants.getRes1NameFromPos(
-                    gridItem.intPos
-                )
-
-                editTextRes2.hint = Constants.getRes2NameFromPos(
-                    gridItem.intPos
-                )
-                if (Constants.isClickableGridItem(gridItem.intPos)) {
-
-                    editTextRes1.setText(gridItem.res1Val.toString())
-                    editTextRes2.setText(gridItem.res2Val.toString())
+                    } else {
+                        gridItem =
+                            Constants.gridItemFromString(strFromBundle)
+                    }
                 }
-                builder.setView(dialogView).setPositiveButton(
-                    "Uložiť", DialogInterface.OnClickListener
-                    { dialog, which ->
-                        gridItemUpdate.updateGridItem(
-                            GridItemModel(
-                                gridItem.intPos,
-                                Integer.parseInt(editTextRes1.text.toString()),
-                                Integer.parseInt(editTextRes2.text.toString())
+                return activity?.let {
+
+                    val builder = AlertDialog.Builder(it)
+                    val inflater = requireActivity().layoutInflater
+                    var dialogView = inflater.inflate(R.layout.change_grid_item_dialog, null)
+                    val editTextRes1 = dialogView.findViewById<EditText>(R.id.resOneTextField)
+                    val editTextRes2 = dialogView.findViewById<EditText>(R.id.resTwoTextField)
+
+                    editTextRes1.hint = Constants.getRes1NameFromPos(
+                        gridItem.intPos
+                    )
+
+                    editTextRes2.hint = Constants.getRes2NameFromPos(
+                        gridItem.intPos
+                    )
+                    if (Constants.isClickableGridItem(gridItem.intPos)) {
+
+                        editTextRes1.setText(gridItem.res1Val.toString())
+                        editTextRes2.setText(gridItem.res2Val.toString())
+                    }
+                    builder.setView(dialogView).setPositiveButton(
+                        "Uložiť", DialogInterface.OnClickListener
+                        { dialog, which ->
+                            gridItemUpdate.updateGridItem(
+                                GridItemModel(
+                                    gridItem.intPos,
+                                    Integer.parseInt(editTextRes1.text.toString()),
+                                    Integer.parseInt(editTextRes2.text.toString())
+                                )
                             )
-                        )
-                        println("ulozit button dialog")
-                        getDialog()?.cancel()
-                    })
-                    .setNegativeButton(
-                        "Zrušiť",
-                        DialogInterface.OnClickListener { dialogInterface, i ->
-
-                            dialog?.cancel()
+                            println("ulozit button dialog")
+                            getDialog()?.cancel()
                         })
+                        .setNegativeButton(
+                            "Zrušiť",
+                            DialogInterface.OnClickListener { dialogInterface, i ->
 
-                builder.create()
-            } ?: throw IllegalStateException("Activity cannot be null")
+                                dialog?.cancel()
+                            })
+
+                    builder.create()
+                } ?: throw IllegalStateException("Activity cannot be null")
+            }
+        }
+
+        override fun onSaveInstanceState(outState: Bundle) {
+            super.onSaveInstanceState(outState)
+            outState.putString(KEY, gridItem.toBundleString())
         }
     }
 
     override fun updateGridItem(gridItem: GridItemModel) {
-        //
-        //
-        // TODO
+
         gameAct.updateSingleRatio(gridItem, phase)
         val gridItemOpposite = gridItem.getItemOpposite()
         //game.updateSingleRatio(gridItemOpposite, phase)

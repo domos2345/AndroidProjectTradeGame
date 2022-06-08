@@ -101,4 +101,11 @@ class Game(
         return tableAct
     }
 
+    fun getResRatio(phase: String, pos: Int, isRow: Boolean): Int {
+        return if (isRow)
+            tables[phase]!![pos.toString()]!!.res1Val
+        else
+            tables[phase]!![pos.toString()]!!.res2Val
+    }
+
 }

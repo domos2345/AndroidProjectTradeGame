@@ -56,6 +56,20 @@ object Constants {
         )
     }
 
+    fun tradeDataModelFromString(str: String): TradeDataModel {
+        val list = str.split(',')
+        return if (list.size != 6) TradeDataModel(0, -1, -1, 0, -1, -1)
+        else TradeDataModel(
+            Integer.parseInt(list[0]),
+            Integer.parseInt(list[1]),
+            Integer.parseInt(list[2]),
+            Integer.parseInt(list[3]),
+            Integer.parseInt(list[4]),
+            Integer.parseInt(list[5])
+        )
+    }
+
+
     fun gerResourcesForTextField(resNames: Map<String, String>): String {
         var str: String = ""
         for (i in 0 until resNames.size) {
@@ -64,6 +78,59 @@ object Constants {
         }
         return str
     }
+
+    fun createResActText(resValues: Map<Int, Int>): String {
+        var formattedText: String = ""
+        for (i in 0 until resValues.size) {
+            formattedText += getStringWithSpacing(MyManager.gameActual.resNames[i.toString()]!!) + ":  ${resValues[i]}"
+            if (i < resValues.size - 1) {
+                formattedText += "\n"
+            }
+
+        }
+        return formattedText
+    }
+
+    fun getStringWithSpacing(str: String, spacing: Int = 12): String {
+        return str + " ".repeat(spacing - str.length)
+    }
+
+    fun generateResValues(resNames: Map<String, String> = MyManager.gameActual.resNames): Map<Int, Int> {
+        var map: MutableMap<Int, Int> = mutableMapOf()
+        for (i in 0 until resNames.size) {
+            map[i] = 0
+        }
+        return map
+    }
+
+    fun getResValuesAsString(resAndValues: MutableMap<Int, Int>): String {
+        var resValuesString = ""
+        for (i in 0 until resAndValues.size) {
+            resValuesString += resAndValues[i].toString()
+            if (i < resAndValues.size - 1) {
+                resValuesString += ","
+            }
+
+        }
+        return resValuesString
+    }
+
+    fun getResValuesFromString(resValsString: String): Map<Int, Int> {
+        val resValues: MutableMap<Int, Int> = mutableMapOf()
+        val list = resValsString.split(',')
+        for (i in list.indices) {
+            resValues[i] = Integer.parseInt(list[i])
+        }
+        return resValues
+    }
+
+    fun rowResIdFromPos(pos: Int): Int = (pos / (MyManager.resCount + 1)) - 1
+
+    fun colResIdFromPos(pos: Int): Int = (pos % (MyManager.resCount + 1)) - 1
+    fun makeTrade(sellAmount: Int, res1RatioVal: Int, res2RatioVal: Int): Any {
+        return (sellAmount * res2RatioVal) / res1RatioVal
+    }
+
 
     /* fun gridItemText(): String = "$res1Val : $res2Val"
 
